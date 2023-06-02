@@ -616,7 +616,12 @@ cc_window_set_active_panel_from_id (CcShell      *shell,
                                     GVariant     *parameters,
                                     GError      **error)
 {
-  return set_active_panel_from_id (CC_WINDOW (shell), start_id, parameters, TRUE, TRUE, error);
+  CcWindow *self = CC_WINDOW (shell);
+
+  g_return_val_if_fail (self != NULL, FALSE);
+
+  cc_panel_list_center_activated_row (self->panel_list, TRUE);
+  return set_active_panel_from_id (self, start_id, parameters, TRUE, TRUE, error);
 }
 
 static GtkWidget *
@@ -737,7 +742,10 @@ cc_window_constructed (GObject *object)
    * or the first visible panel */
   id = g_settings_get_string (self->settings, "last-panel");
   if (id != NULL && cc_shell_model_has_panel (self->store, id))
-    cc_panel_list_set_active_panel (self->panel_list, id);
+    {
+      cc_panel_list_center_activated_row (self->panel_list, TRUE);
+      cc_panel_list_set_active_panel (self->panel_list, id);
+    }
   else
     cc_panel_list_activate (self->panel_list);
 
