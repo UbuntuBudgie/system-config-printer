@@ -9,13 +9,9 @@
     <property name="default-height">420</property>
     <property name="content">
       <object class="AdwToastOverlay" id="toast_overlay">
-        <property name="hexpand">True</property>
-        <property name="valign">baseline</property>
-        <property name="vexpand">True</property>
         <property name="child">
-          <object class="GtkBox">
-            <property name="orientation">vertical</property>
-            <child>
+          <object class="AdwToolbarView">
+            <child type="top">
               <object class="AdwHeaderBar">
                 <child type="start">
                   <object class="GtkButton" id="details_copy_button">
@@ -31,7 +27,7 @@
                 </child>
               </object>
             </child>
-            <child>
+            <property name="content">
               <object class="GtkBox">
                 <property name="orientation">vertical</property>
                 <property name="margin-top">12</property>
@@ -186,7 +182,7 @@
                   </object>
                 </child>
               </object>
-            </child>
+            </property>
           </object>
         </property>
       </object>
