@@ -80,8 +80,9 @@ struct _CcUserPanel {
         GtkToggleButton *full_name_edit_button;
         GtkEntry        *full_name_entry;
         CcListRow       *language_row;
+        GtkWidget       *main_page;
         GtkWidget       *no_users_box;
-        GtkRevealer     *notification_revealer;
+        AdwToastOverlay *toast_overlay;
         AdwPreferencesGroup *other_users;
         GtkListBox      *other_users_listbox;
         GtkLabel        *password_button_label;
@@ -95,7 +96,6 @@ struct _CcUserPanel {
         GtkStack        *stack;
         AdwAvatar       *user_avatar;
         GtkMenuButton   *user_avatar_edit_button;
-        GtkOverlay      *users_overlay;
         AdwMessageDialog *local_user_dialog;
         GtkSwitch       *local_user_choice;
 
@@ -962,17 +962,9 @@ account_type_changed (CcUserPanel *self)
 }
 
 static void
-dismiss_notification (CcUserPanel *self)
-{
-        gtk_revealer_set_reveal_child (self->notification_revealer, FALSE);
-}
-
-static void
 restart_now (CcUserPanel *self)
 {
         g_autoptr(GDBusConnection) bus = NULL;
-
-        gtk_revealer_set_reveal_child (self->notification_revealer, FALSE);
 
         bus = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, NULL);
         g_dbus_connection_call (bus,
@@ -988,6 +980,7 @@ restart_now (CcUserPanel *self)
 static void
 show_restart_notification (CcUserPanel *self, const gchar *locale)
 {
+        AdwToast *toast;
         locale_t current_locale;
         locale_t new_locale;
 
@@ -999,7 +992,11 @@ show_restart_notification (CcUserPanel *self, const gchar *locale)
                         current_locale = uselocale (new_locale);
         }
 
-        gtk_revealer_set_reveal_child (self->notification_revealer, TRUE);
+        toast = adw_toast_new (_("Your session needs to be restarted for changes to take effect"));
+        adw_toast_set_timeout (toast, 0);
+        adw_toast_set_button_label (toast, _("Restart Now"));
+        g_signal_connect_swapped (toast, "button-clicked", G_CALLBACK (restart_now), self);
+        adw_toast_overlay_add_toast (self->toast_overlay, toast);
 
         if (locale && new_locale != (locale_t) 0) {
                 uselocale (current_locale);
@@ -1148,7 +1145,7 @@ users_loaded (CcUserPanel *self)
 
                 gtk_stack_set_visible_child (self->stack, self->no_users_box);
         } else {
-                gtk_stack_set_visible_child (self->stack, GTK_WIDGET (self->users_overlay));
+                gtk_stack_set_visible_child (self->stack, GTK_WIDGET (self->main_page));
                 show_current_user (self);
         }
 
@@ -1469,7 +1466,7 @@ cc_user_panel_class_init (CcUserPanelClass *klass)
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, full_name_entry);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, language_row);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, no_users_box);
-        gtk_widget_class_bind_template_child (widget_class, CcUserPanel, notification_revealer);
+        gtk_widget_class_bind_template_child (widget_class, CcUserPanel, toast_overlay);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, other_users);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, other_users_listbox);
 #ifdef HAVE_MALCONTENT
@@ -1481,9 +1478,9 @@ cc_user_panel_class_init (CcUserPanelClass *klass)
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, permission_infobar);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, remove_user_button);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, stack);
+        gtk_widget_class_bind_template_child (widget_class, CcUserPanel, main_page);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, user_avatar);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, user_avatar_edit_button);
-        gtk_widget_class_bind_template_child (widget_class, CcUserPanel, users_overlay);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, local_user_dialog);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, local_user_choice);
 
@@ -1496,8 +1493,6 @@ cc_user_panel_class_init (CcUserPanelClass *klass)
         gtk_widget_class_bind_template_callback (widget_class, full_name_entry_key_press_cb);
         gtk_widget_class_bind_template_callback (widget_class, change_password);
         gtk_widget_class_bind_template_callback (widget_class, delete_user);
-        gtk_widget_class_bind_template_callback (widget_class, dismiss_notification);
-        gtk_widget_class_bind_template_callback (widget_class, restart_now);
         gtk_widget_class_bind_template_callback (widget_class, set_selected_user);
         gtk_widget_class_bind_template_callback (widget_class, on_back_button_clicked_cb);
         gtk_widget_class_bind_template_callback (widget_class, delete_user_response);
