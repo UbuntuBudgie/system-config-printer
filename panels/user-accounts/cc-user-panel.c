@@ -81,7 +81,7 @@ struct _CcUserPanel {
         GtkEntry        *full_name_entry;
         CcListRow       *language_row;
         GtkWidget       *main_page;
-        GtkWidget       *no_users_box;
+        GtkWidget       *no_users_page;
         AdwToastOverlay *toast_overlay;
         AdwPreferencesGroup *other_users;
         GtkListBox      *other_users_listbox;
@@ -1133,7 +1133,7 @@ users_loaded (CcUserPanel *self)
                                   NULL);
                 gtk_window_present (GTK_WINDOW (dialog));
 
-                gtk_stack_set_visible_child (self->stack, self->no_users_box);
+                gtk_stack_set_visible_child (self->stack, self->no_users_page);
         } else {
                 gtk_stack_set_visible_child (self->stack, GTK_WIDGET (self->main_page));
                 show_current_user (self);
@@ -1450,7 +1450,7 @@ cc_user_panel_class_init (CcUserPanelClass *klass)
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, fingerprint_row);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, full_name_entry);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, language_row);
-        gtk_widget_class_bind_template_child (widget_class, CcUserPanel, no_users_box);
+        gtk_widget_class_bind_template_child (widget_class, CcUserPanel, no_users_page);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, toast_overlay);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, other_users);
         gtk_widget_class_bind_template_child (widget_class, CcUserPanel, other_users_listbox);
