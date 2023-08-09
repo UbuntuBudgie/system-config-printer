@@ -13,6 +13,7 @@
           <object class="GtkBox" id="sidebar_box">
             <property name="hexpand">False</property>
             <property name="orientation">vertical</property>
+            <property name="visible">False</property>
 
             <child>
               <object class="AdwHeaderBar" id="header">

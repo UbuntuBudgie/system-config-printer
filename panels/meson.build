@@ -37,6 +37,11 @@ if host_is_linux_not_s390
   ]
 endif
 
+# override the above to just compile printers
+panels = [
+  'printers',
+]
+
 panels_list = []
 panels_libs = []
 foreach cappletname: panels

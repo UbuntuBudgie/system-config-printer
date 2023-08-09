@@ -119,7 +119,7 @@ pulse_req_version = '>= 2.0'
 
 gtk_dep = dependency(
   'gtk4',
-  version: '>= 4.11.2',
+  version: '>= 4.10.2',
   fallback: ['gtk', 'gtk_dep'],
   default_options: [
     'introspection=disabled',
@@ -132,7 +132,7 @@ gtk_dep = dependency(
 
 libadwaita_dep = dependency(
   'libadwaita-1',
-  version: '>= 1.4.alpha',
+  version: '>= 1.3.alpha',
   required: false
 )
 # FIXME: this is a workaround because interactive-tests don't work with libadwaita as a subproject. See !1754
