@@ -21,7 +21,7 @@ control_center_schemadir = join_paths (control_center_datadir, 'glib-2.0', 'sche
 control_center_gettext = meson.project_name() + '-2.0'
 
 host_is_linux = host_machine.system().contains('linux')
-host_is_linux_not_s390 = host_is_linux and not host_machine.cpu().contains('s390')
+host_is_linux_not_s390 = host_is_linux and not host_machine.cpu().contains('dummycpu')
 
 cc = meson.get_compiler('c')
 
@@ -103,23 +103,23 @@ endif
 add_project_arguments(common_flags, language: 'c')
 
 # Check that we meet the dependencies
-libgvc = subproject(
-  'gvc',
-  default_options: [
-    'static=true',
-    'alsa=false',
-    'package_name=' + control_center_gettext,
-    'package_version=' + meson.project_version(),
-  ]
-)
-libgvc_dep = libgvc.get_variable('libgvc_dep')
+#libgvc = subproject(
+#  'gvc',
+#  default_options: [
+#    'static=true',
+#    'alsa=false',
+#    'package_name=' + control_center_gettext,
+#    'package_version=' + meson.project_version(),
+#  ]
+#)
+#libgvc_dep = libgvc.get_variable('libgvc_dep')
 
-goa_req_version = '>= 3.25.3'
-pulse_req_version = '>= 2.0'
+#goa_req_version = '>= 3.25.3'
+#pulse_req_version = '>= 2.0'
 
 gtk_dep = dependency(
   'gtk4',
-  version: '>= 4.11.2',
+  version: '>= 4.10.2',
   fallback: ['gtk', 'gtk_dep'],
   default_options: [
     'introspection=disabled',
@@ -132,7 +132,7 @@ gtk_dep = dependency(
 
 libadwaita_dep = dependency(
   'libadwaita-1',
-  version: '>= 1.4.alpha',
+  version: '>= 1.3.alpha',
   required: false
 )
 # FIXME: this is a workaround because interactive-tests don't work with libadwaita as a subproject. See !1754
@@ -150,27 +150,27 @@ if libadwaita_is_subproject
   libadwaita_dep = libadwaita.get_variable('libadwaita_dep')
 endif
 
-accounts_dep = dependency('accountsservice', version: '>= 0.6.39')
-colord_dep = dependency('colord', version: '>= 0.1.34')
+#accounts_dep = dependency('accountsservice', version: '>= 0.6.39')
+#colord_dep = dependency('colord', version: '>= 0.1.34')
 gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0', version: '>= 2.23.0')
 gio_dep = dependency('gio-2.0')
 glib_dep = dependency('glib-2.0', version: '>= 2.75.0')
 gnome_desktop_dep = dependency('gnome-desktop-4')
-gnome_bg_dep = dependency('gnome-bg-4')
-gnome_rr_dep = dependency('gnome-rr-4')
+#gnome_bg_dep = dependency('gnome-bg-4')
+#gnome_rr_dep = dependency('gnome-rr-4')
 gnome_settings_dep = dependency('gnome-settings-daemon', version: '>= 41.0')
-goa_dep = dependency('goa-1.0', version: goa_req_version)
+#goa_dep = dependency('goa-1.0', version: goa_req_version)
 gsettings_desktop_dep = dependency('gsettings-desktop-schemas', version: '>= 42.alpha')
-libxml_dep = dependency('libxml-2.0')
-pulse_dep = dependency('libpulse', version: pulse_req_version)
-pulse_mainloop_dep = dependency('libpulse-mainloop-glib', version: pulse_req_version)
-upower_glib_dep = dependency('upower-glib', version: '>= 0.99.8')
+#libxml_dep = dependency('libxml-2.0')
+#pulse_dep = dependency('libpulse', version: pulse_req_version)
+#pulse_mainloop_dep = dependency('libpulse-mainloop-glib', version: pulse_req_version)
+#upower_glib_dep = dependency('upower-glib', version: '>= 0.99.8')
 gudev_dep = dependency('gudev-1.0', version: '>= 232')
 x11_dep = dependency('x11', version: '>= 1.8')
 xi_dep = dependency('xi', version: '>= 1.2')
-epoxy_dep = dependency('epoxy')
-gcr_dep = dependency('gcr-base-3')
-pwquality_dep = dependency('pwquality', version: '>= 1.2.2')
+#epoxy_dep = dependency('epoxy')
+#gcr_dep = dependency('gcr-base-3')
+#pwquality_dep = dependency('pwquality', version: '>= 1.2.2')
 
 m_dep = cc.find_library('m')
 
@@ -252,48 +252,48 @@ config_h.set('HAVE_MALCONTENT', enable_malcontent,
 
 if host_is_linux
   # ModemManager
-  mm_dep =  dependency('mm-glib', version: '>= 0.7')
+  #mm_dep =  dependency('mm-glib', version: '>= 0.7')
   # NetworkManager
-  network_manager_deps = [
-    dependency('libnm', version: '>= 1.24.0'),
-    dependency('libnma-gtk4', version: '>= 1.10.2'),
-    mm_dep,
-  ]
+  #network_manager_deps = [
+  #  dependency('libnm', version: '>= 1.24.0'),
+  #  dependency('libnma-gtk4', version: '>= 1.10.2'),
+  #  mm_dep,
+  #]
 endif
-config_h.set('BUILD_NETWORK', host_is_linux,
-             description: 'Define to 1 to build the Network panel')
-config_h.set('HAVE_NETWORK_MANAGER', host_is_linux,
-             description: 'Define to 1 if NetworkManager is available')
-config_h.set('BUILD_WWAN', host_is_linux,
-             description: 'Define to 1 to build the WWan panel')
-config_h.set('HAVE_WWAN', host_is_linux,
-             description: 'Define to 1 if WWan is available')
+#config_h.set('BUILD_NETWORK', host_is_linux,
+#             description: 'Define to 1 to build the Network panel')
+#config_h.set('HAVE_NETWORK_MANAGER', host_is_linux,
+#             description: 'Define to 1 if NetworkManager is available')
+#config_h.set('BUILD_WWAN', host_is_linux,
+#             description: 'Define to 1 to build the WWan panel')
+#config_h.set('HAVE_WWAN', host_is_linux,
+#             description: 'Define to 1 if WWan is available')
 
 if host_is_linux_not_s390
   # gnome-bluetooth
-  gnome_bluetooth_dep = dependency('gnome-bluetooth-ui-3.0')
+  #gnome_bluetooth_dep = dependency('gnome-bluetooth-ui-3.0')
 
-  libwacom_dep = dependency('libwacom', version: '>= 0.7')
+  #libwacom_dep = dependency('libwacom', version: '>= 0.7')
 
   wacom_deps = [
-    libwacom_dep,
+    #libwacom_dep,
   ]
-  config_h.set('HAVE_WACOM_3D_STYLUS', libwacom_dep.version().version_compare('>= 0.27'),
-               description: 'Define to 1 if libwacom provides definition for 3D styli')
+  #config_h.set('HAVE_WACOM_3D_STYLUS', libwacom_dep.version().version_compare('>= 0.27'),
+  #             description: 'Define to 1 if libwacom provides definition for 3D styli')
 else
   message('Bluetooth and Wacom panels will not be built (no USB support on this platform)')
   message('Thunderbolt panel will not be built (not supported on this platform)')
 endif
-config_h.set('BUILD_BLUETOOTH', host_is_linux_not_s390,
-             description: 'Define to 1 to build the Bluetooth panel')
-config_h.set('HAVE_BLUETOOTH', host_is_linux_not_s390,
-             description: 'Define to 1 if bluetooth support is available')
-config_h.set('BUILD_WACOM', host_is_linux_not_s390,
-             description: 'Define to 1 to build the Wacom panel')
-config_h.set('HAVE_WACOM', host_is_linux_not_s390,
-             description: 'Define to 1 if Wacom is supportted')
-config_h.set('BUILD_THUNDERBOLT', host_is_linux_not_s390,
-             description: 'Define to 1 to build the Thunderbolt panel')
+#config_h.set('BUILD_BLUETOOTH', host_is_linux_not_s390,
+#             description: 'Define to 1 to build the Bluetooth panel')
+#config_h.set('HAVE_BLUETOOTH', host_is_linux_not_s390,
+#             description: 'Define to 1 if bluetooth support is available')
+#config_h.set('BUILD_WACOM', host_is_linux_not_s390,
+#             description: 'Define to 1 to build the Wacom panel')
+#config_h.set('HAVE_WACOM', host_is_linux_not_s390,
+#             description: 'Define to 1 if Wacom is supportted')
+#config_h.set('BUILD_THUNDERBOLT', host_is_linux_not_s390,
+#             description: 'Define to 1 to build the Thunderbolt panel')
 
 gnome = import('gnome')
 i18n = import('i18n')
@@ -314,7 +314,7 @@ subdir('data/icons')
 subdir('po')
 subdir('panels')
 subdir('shell')
-subdir('search-provider')
+#subdir('search-provider')
 
 if get_option('tests')
   subdir('tests')
@@ -341,9 +341,9 @@ summary({
 })
 
 summary({
-  'GNOME Bluetooth': host_is_linux_not_s390,
-  'NetworkManager': host_is_linux,
-  'Wacom': host_is_linux_not_s390,
+  #'GNOME Bluetooth': host_is_linux_not_s390,
+  #'NetworkManager': host_is_linux,
+  #'Wacom': host_is_linux_not_s390,
 }, section: 'Dependencies')
 
 summary({

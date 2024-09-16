@@ -88,7 +88,7 @@ extern void cc_wwan_panel_static_init_func (void);
 
 static CcPanelLoaderVtable default_panels[] =
 {
-  PANEL_TYPE("applications",     cc_applications_panel_get_type,         NULL),
+  /*PANEL_TYPE("applications",     cc_applications_panel_get_type,         NULL),
   PANEL_TYPE("background",       cc_background_panel_get_type,           NULL),
 #ifdef BUILD_BLUETOOTH
   PANEL_TYPE("bluetooth",        cc_bluetooth_panel_get_type,            NULL),
@@ -107,9 +107,9 @@ static CcPanelLoaderVtable default_panels[] =
 #endif
   PANEL_TYPE("notifications",    cc_notifications_panel_get_type,        NULL),
   PANEL_TYPE("online-accounts",  cc_online_accounts_panel_get_type,      NULL),
-  PANEL_TYPE("power",            cc_power_panel_get_type,                NULL),
+  PANEL_TYPE("power",            cc_power_panel_get_type,                NULL),*/
   PANEL_TYPE("printers",         cc_printers_panel_get_type,             NULL),
-  PANEL_TYPE("privacy",          cc_privacy_panel_get_type,              NULL),
+  /*PANEL_TYPE("privacy",          cc_privacy_panel_get_type,              NULL),
   PANEL_TYPE("region",           cc_region_panel_get_type,               NULL),
   PANEL_TYPE("removable-media",  cc_removable_media_panel_get_type,      NULL),
   PANEL_TYPE("search",           cc_search_panel_get_type,               NULL),
@@ -122,7 +122,7 @@ static CcPanelLoaderVtable default_panels[] =
 #endif
 #ifdef BUILD_WWAN
   PANEL_TYPE("wwan",             cc_wwan_panel_get_type,                 cc_wwan_panel_static_init_func),
-#endif
+#endif*/
 };
 
 /* Override for the panel vtable. When NULL, the default_panels will

@@ -358,7 +358,7 @@ filter_func (GtkListBoxRow *row,
 
 static const gchar * const panel_order[] = {
   /* Main page */
-  "wifi",
+  /*"wifi",
   "network",
   "wwan",
   "mobile-broadband",
@@ -370,27 +370,27 @@ static const gchar * const panel_order[] = {
   "applications",
   "privacy",
   "online-accounts",
-  "sharing",
+  "sharing",*/
 
   /* Devices page */
-  "sound",
+  /*"sound",
   "power",
   "display",
   "mouse",
-  "keyboard",
+  "keyboard",*/
   "printers",
-  "removable-media",
+  /*"removable-media",
   "wacom",
-  "color",
+  "color",*/
 
   /* Details page */
-  "region",
+  /*"region",
   "universal-access",
   "user-accounts",
   "default-apps",
   "reset-settings",
   "datetime",
-  "info-overview",
+  "info-overview",*/
 };
 
 static guint

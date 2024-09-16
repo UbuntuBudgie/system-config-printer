@@ -85,7 +85,6 @@
             <child>
               <object class="GtkLabel" id="personal_file_sharing_label">
                 <property name="xalign">0</property>
-                <property name="label">File Sharing allows you to share your Public folder with others on your current network using: &lt;a href="dav://%s"&gt;dav://%s&lt;/a&gt;</property>
                 <property name="use_markup">True</property>
                 <property name="wrap">True</property>
                 <property name="max-width-chars">36</property>
@@ -180,38 +179,16 @@
         <child>
           <object class="GtkLabel" id="remote_login_label">
             <property name="xalign">0</property>
-            <property name="label">When remote login is enabled, remote users can connect using the Secure Shell command:
-&lt;a href="ssh %s"&gt;ssh %s&lt;/a&gt;</property>
             <property name="use_markup">True</property>
             <property name="wrap">True</property>
             <property name="max-width-chars">36</property>
           </object>
         </child>
         <child>
-          <object class="GtkBox">
-            <style>
-              <class name="frame"/>
-              <class name="view"/>
-            </style>
+          <object class="AdwPreferencesGroup">
             <child>
-              <object class="GtkBox">
-                <property name="margin-top">12</property>
-                <property name="margin-bottom">12</property>
-                <property name="margin-start">12</property>
-                <property name="margin-end">12</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="label" translatable="yes">Remote Login</property>
-                    <property name="hexpand">True</property>
-                    <property name="xalign">0</property>
-                    <property name="mnemonic_widget">remote_login_switch</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkSwitch" id="remote_login_switch">
-                    <property name="halign">end</property>
-                  </object>
-                </child>
+              <object class="AdwSwitchRow" id="remote_login_switch">
+                <property name="title" translatable="yes">Remote Login</property>
               </object>
             </child>
           </object>
